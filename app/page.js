@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-
-const initialTasks = [
-  { id: 1, title: 'Ship the first Next.js version', priority: 'high', done: false },
-  { id: 2, title: 'Connect GitHub CI', priority: 'medium', done: false },
-  { id: 3, title: 'Define the automated SDLC', priority: 'low', done: true },
-];
+import { addTask as createTask, clearCompleted as dropCompleted, filterTasks, initialTasks, removeTask, stats as taskStats, toggleTask } from '../lib/tasks';
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -24,21 +19,20 @@ export default function Home() {
   useEffect(() => { if (tasks.length) localStorage.setItem('pulse-tasks', JSON.stringify(tasks)); }, [tasks]);
   useEffect(() => { localStorage.setItem('pulse-theme', dark ? 'dark' : 'light'); }, [dark]);
 
-  const completed = tasks.filter(t => t.done).length;
-  const progress = tasks.length ? Math.round((completed / tasks.length) * 100) : 0;
-  const visible = useMemo(() => tasks.filter(t => filter === 'all' || (filter === 'open' ? !t.done : t.done)), [tasks, filter]);
+  const { completed, progress } = taskStats(tasks);
+  const visible = useMemo(() => filterTasks(tasks, filter), [tasks, filter]);
 
   function addTask(e) {
     e?.preventDefault();
     const title = input.trim();
     if (!title) return;
-    setTasks(prev => [{ id: Date.now(), title, priority, done: false }, ...prev]);
+    setTasks(prev => createTask(prev, { title, priority }));
     setInput('');
     setPriority('medium');
   }
-  function toggle(id) { setTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t)); }
-  function remove(id) { setTasks(prev => prev.filter(t => t.id !== id)); }
-  function clearCompleted() { setTasks(prev => prev.filter(t => !t.done)); }
+  function toggle(id) { setTasks(prev => toggleTask(prev, id)); }
+  function remove(id) { setTasks(prev => removeTask(prev, id)); }
+  function clearCompleted() { setTasks(prev => dropCompleted(prev)); }
 
   return <main className={dark ? 'shell dark' : 'shell light'}>
     <section className="app-card">
