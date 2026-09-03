@@ -1,0 +1,19 @@
+app/page.js
+  s_90d8eda49bc425::t_6dcb5003f38ebf 63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.0",
+  "base_commit_sha": "dc918c44e0ab128757997ff503f4406b90d975b2",
+  "prompts": {},
+  "sessions": {
+    "s_90d8eda49bc425": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "70140a6f-1762-4283-8b88-56a89f1067e5",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "DRMAC <drmac@DRMACs-MBP.localdomain>"
+    }
+  }
+}
