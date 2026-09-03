@@ -60,7 +60,7 @@ export default function Home() {
         <button className="delete" onClick={() => remove(task.id)} aria-label="Delete task">×</button>
       </article>)}</div>
 
-      <footer><span>⌘ K to focus</span><span>Local-first · Fast · Private</span></footer>
+      <footer><span>⌘ K to focus</span><span>Local-first · Fast · Private</span><span>Powered by Brainspack LLP</span></footer>
     </section>
   </main>;
 }
